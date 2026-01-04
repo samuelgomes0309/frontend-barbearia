@@ -1,11 +1,11 @@
 import Sidebar from "@/components/sidebar";
 import { Flex, Text } from "@chakra-ui/react";
 
-export default function Dashboard() {
+export default function Profile() {
 	return (
 		<Sidebar>
 			<Flex>
-				<Text>Dashboard</Text>
+				<Text>Profile</Text>
 			</Flex>
 		</Sidebar>
 	);
