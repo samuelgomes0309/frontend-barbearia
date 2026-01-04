@@ -68,7 +68,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			console.log("Erro ao cadastrar o usuario", error);
 		}
 	}
-	function signOut() {
+	async function signOut() {
 		destroyCookie(null, "@barberpro.token", { path: "/" });
 		setUser(null);
 		router.push("/login");
