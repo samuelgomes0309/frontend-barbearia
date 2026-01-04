@@ -22,7 +22,6 @@ export default function ProfileClient({ user }: ProfileClientProps) {
 	async function handleUpdate() {
 		updateUser({ name, address });
 	}
-
 	return (
 		<Sidebar>
 			<Flex
