@@ -2,8 +2,8 @@
 import { SignInProps, SignUpProps, UserProps } from "@/@types";
 import { api } from "@/services/apiClient";
 import { useRouter } from "next/navigation";
-import { destroyCookie, setCookie } from "nookies";
-import { createContext, ReactNode, useState } from "react";
+import { destroyCookie, parseCookies, setCookie } from "nookies";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 interface AuthContextData {
 	user: UserProps;
@@ -23,6 +23,32 @@ export function AuthProvider({ children }: AuthProviderProps) {
 	const [user, setUser] = useState<UserProps>(null);
 	const isAuthenticated = !!user;
 	const router = useRouter();
+	async function signOut() {
+		destroyCookie(null, "@barberpro.token", { path: "/" });
+		setUser(null);
+		router.push("/login");
+	}
+	useEffect(() => {
+		const { "@barberpro.token": token } = parseCookies();
+		if (token) {
+			api
+				.get("/me")
+				.then((response) => {
+					const { id, name, email, address, subscription } = response.data;
+					setUser({
+						id,
+						name,
+						email,
+						address,
+						subscription,
+					});
+				})
+				.catch(() => {
+					signOut();
+				});
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 	async function signIn({ email, password }: SignInProps) {
 		if (!email || !password) {
 			alert("Preencha todos os campos");
@@ -67,11 +93,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 		} catch (error) {
 			console.log("Erro ao cadastrar o usuario", error);
 		}
-	}
-	async function signOut() {
-		destroyCookie(null, "@barberpro.token", { path: "/" });
-		setUser(null);
-		router.push("/login");
 	}
 	return (
 		<AuthContext.Provider
