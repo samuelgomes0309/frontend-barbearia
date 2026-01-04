@@ -1,5 +1,5 @@
 "use client";
-import { SignInProps, SignUpProps, UserProps } from "@/@types";
+import { SignInProps, SignUpProps, UpdateUserProps, UserProps } from "@/@types";
 import { api } from "@/services/apiClient";
 import { useRouter } from "next/navigation";
 import { destroyCookie, parseCookies, setCookie } from "nookies";
@@ -11,6 +11,7 @@ interface AuthContextData {
 	signIn: ({ email, password }: SignInProps) => Promise<void>;
 	signUp: ({ email, name, password }: SignUpProps) => Promise<void>;
 	signOut: () => Promise<void>;
+	updateUser?: ({ name, address }: UpdateUserProps) => void;
 }
 
 export const AuthContext = createContext({} as AuthContextData);
@@ -94,9 +95,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
 			console.log("Erro ao cadastrar o usuario", error);
 		}
 	}
+	async function updateUser({ name, address }: UpdateUserProps) {
+		// Para o futuro quero validar se o name ou endereço houve alguma mudança antes de fazer a requisição
+		if (name.trim() === "" || address.trim() === "") {
+			return;
+		}
+		try {
+			await api.put("/users", {
+				name: name,
+				address: address,
+			});
+		} catch (error) {
+			console.log("Erro ao atualizar o usuario", error);
+		}
+	}
 	return (
 		<AuthContext.Provider
-			value={{ user, isAuthenticated, signIn, signUp, signOut }}
+			value={{ user, isAuthenticated, signIn, signUp, signOut, updateUser }}
 		>
 			{children}
 		</AuthContext.Provider>

@@ -44,3 +44,8 @@ export interface NavItemProps {
 export interface MobielNavProps extends FlexProps {
 	onopen: () => void;
 }
+
+export interface UpdateUserProps {
+	name: string;
+	address: string;
+}

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-	ChakraProvider as ChakraUIProvider,
-	createSystem,
-	defaultConfig,
-	defineConfig,
-} from "@chakra-ui/react";
+import { createSystem, defaultConfig, defineConfig } from "@chakra-ui/react";
 
 //Configuração personalizada do Chakra UI
 
@@ -34,12 +29,4 @@ export const config = defineConfig({
 	},
 });
 
-const system = createSystem(defaultConfig, config);
-
-export default function ChakraProvider({
-	children,
-}: {
-	children: React.ReactNode;
-}) {
-	return <ChakraUIProvider value={system}>{children}</ChakraUIProvider>;
-}
+export const system = createSystem(defaultConfig, config);
