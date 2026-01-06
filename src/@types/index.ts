@@ -49,3 +49,21 @@ export interface UpdateUserProps {
 	name: string;
 	address: string;
 }
+
+export interface HaircutProps {
+	id: string;
+	name: string;
+	price: number;
+	status: boolean;
+	user_id: string;
+}
+
+export interface HaircutCountProps {
+	Actives: { count: number };
+	Inactive: { count: number };
+}
+
+export interface NewHaircutProps {
+	name: string;
+	price: number;
+}

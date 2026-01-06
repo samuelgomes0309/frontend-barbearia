@@ -2,22 +2,29 @@ import axios from "axios";
 import { parseCookies } from "nookies";
 import { AuthTokenError } from "./errors/AuthTokenError";
 
-// Essa função configura uma instância do cliente API com base na presença de cookies de autenticação, que é urilizada do lado do servidor e do cliente
-export function setupAPIClient(context = undefined) {
+interface SetupAPIClientProps {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	context?: any;
+	token?: string;
+}
+
+export function setupAPIClient({
+	context = undefined,
+	token,
+}: SetupAPIClientProps = {}) {
+	// Se não recebeu token, pega do cookie (server)
 	const cookies = parseCookies(context);
+	const authToken = token || cookies["@barberpro.token"];
 	const api = axios.create({
 		baseURL: process.env.NEXT_PUBLIC_API_URL,
 		headers: {
-			Authorization: `Bearer ${cookies["@barberpro.token"]}`,
+			Authorization: `Bearer ${authToken}`,
 		},
 	});
-	// Criando uma interceptador de resposta para tratar erros de autenticação
 	api.interceptors.response.use(
-		(response) => {
-			return response;
-		},
+		(response) => response,
 		(error) => {
-			if (error.response.status === 401) {
+			if (error.response?.status === 401) {
 				if (typeof window !== "undefined") {
 					return Promise.reject(new AuthTokenError());
 				}

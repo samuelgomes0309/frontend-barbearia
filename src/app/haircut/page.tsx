@@ -1,12 +1,17 @@
-import Sidebar from "@/components/sidebar";
-import { Flex } from "@chakra-ui/react";
+import { cookies } from "next/headers";
+import { setupAPIClient } from "@/services/api";
+import HaircutClient from "./components/haircutClient";
+import { HaircutProps } from "@/@types";
 
-export default function Haircut() {
-	return (
-		<Sidebar>
-			<Flex background={"barber.100"}>
-				<h1>teste haircut</h1>
-			</Flex>
-		</Sidebar>
-	);
+export default async function Haircut() {
+	const token = (await cookies()).get("@barberpro.token")?.value;
+	let haircuts: HaircutProps[] = [];
+	if (token) {
+		const apiClient = setupAPIClient({ token });
+		const response = await apiClient.get<HaircutProps[]>("/haircuts", {
+			params: { status: true },
+		});
+		haircuts = response.data;
+	}
+	return <HaircutClient haircuts={haircuts} />;
 }
