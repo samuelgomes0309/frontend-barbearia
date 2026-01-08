@@ -16,8 +16,7 @@ export default async function NewHaircut() {
 			apiClient.get<UserProps>("/me").then((res) => res.data),
 		]);
 		count = countData.Actives.count;
-		subscription = meData.subscription?.status ?? null;
+		subscription = meData.subscriptions?.status ?? null;
 	}
-
 	return <NewHaircutClient count={count} subscription={subscription} />;
 }

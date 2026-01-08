@@ -6,7 +6,7 @@ export interface UserProps {
 	name: string;
 	email: string;
 	address: string | null;
-	subscription?: SubscriptionProps | null;
+	subscriptions?: SubscriptionProps | null;
 }
 
 export interface SubscriptionProps {
@@ -66,4 +66,11 @@ export interface HaircutCountProps {
 export interface NewHaircutProps {
 	name: string;
 	price: number;
+}
+
+export interface UpdateHaircutProps {
+	haircut_id: string;
+	name: string;
+	price: number;
+	status: boolean;
 }

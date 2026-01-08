@@ -8,6 +8,7 @@ import {
 	Switch,
 	SwitchCheckedChangeDetails,
 	Text,
+	useMediaQuery,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import CardHaircut from "./cardHaircut";
@@ -23,6 +24,7 @@ export default function HaircutClient({ haircuts }: HaircutClientProps) {
 	const [haircutList, setHaircutList] = useState<HaircutProps[] | undefined>(
 		haircuts
 	);
+	const [isMobile] = useMediaQuery(["(max-width: 700px)"]);
 	async function handleHaircuts({ checked }: SwitchCheckedChangeDetails) {
 		setStatusSwitch(checked);
 		const data = await handleSearchHaircuts(checked);
@@ -41,12 +43,13 @@ export default function HaircutClient({ haircuts }: HaircutClientProps) {
 			>
 				<Flex
 					w={"100%"}
-					justifyContent={"space-between"}
-					alignItems={"center"}
 					maxW={700}
 					mb={6}
+					flexDirection={isMobile ? "column" : "row"}
+					alignItems={isMobile ? "flex-start" : "center"}
+					justifyContent={isMobile ? "flex-start" : "space-between"}
 				>
-					<Flex w={"80%"} gap={4} alignItems={"center"}>
+					<Flex gap={4} flexDirection={isMobile ? "column" : "row"}>
 						<Heading fontSize="2xl" fontWeight="bold" color={"orange.900"}>
 							Modelos de cortes
 						</Heading>
@@ -63,7 +66,14 @@ export default function HaircutClient({ haircuts }: HaircutClientProps) {
 							</Flex>
 						</Link>
 					</Flex>
-					<Flex alignItems={"center"} gap={2} color={"white"}>
+					<Flex
+						gap={2}
+						color={"white"}
+						justifyContent={isMobile ? "flex-end" : "center"}
+						alignItems={isMobile ? "flex-end" : "center"}
+						mt={isMobile ? "20px" : 0}
+						width={isMobile ? "100%" : "auto"}
+					>
 						<Text>Ativos</Text>
 						<Switch.Root
 							size={"lg"}
