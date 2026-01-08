@@ -15,7 +15,7 @@ export default function ProfileClient({ user }: ProfileClientProps) {
 	const [name, setName] = useState(user?.name || "");
 	const [address, setAddress] = useState(user?.address || "");
 	const statusSubscription =
-		user?.subscription?.status === "active" ? true : false;
+		user?.subscriptions?.status === "active" ? true : false;
 	async function handleLogout() {
 		await signOut();
 	}
