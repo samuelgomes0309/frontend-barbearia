@@ -74,3 +74,9 @@ export interface UpdateHaircutProps {
 	price: number;
 	status: boolean;
 }
+
+export interface AppointmentProps {
+	id: string;
+	customer: string;
+	haircut: HaircutProps;
+}
