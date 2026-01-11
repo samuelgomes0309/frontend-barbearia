@@ -30,6 +30,7 @@ export default function HaircutDetailsClient({
 	const [name, setName] = useState(haircut?.name);
 	const [statusSwitch, setStatusSwitch] = useState(haircut?.status);
 	const [price, setPrice] = useState<string | number>(haircut?.price);
+	console.log(haircut, statusSwitch);
 	async function handleUpdate() {
 		if (!haircut.id) return;
 		const priceNumber = Number(price);
@@ -113,10 +114,10 @@ export default function HaircutDetailsClient({
 						<Text userSelect={"none"}>Desativar corte</Text>
 						<Switch.Root
 							size={"lg"}
-							defaultChecked={true}
+							defaultChecked={statusSwitch}
 							colorScheme={"inherit"}
 							colorPalette="red"
-							value={statusSwitch ? "true" : "false"}
+							value={statusSwitch === true ? "true" : "false"}
 							onCheckedChange={(e) => handleHaircutStatus(e)}
 							disabled={!isPremiun}
 						>
