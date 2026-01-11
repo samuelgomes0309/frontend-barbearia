@@ -1,19 +1,17 @@
 import { AppointmentProps } from "@/@types";
 import { Box, Flex, Text, useMediaQuery } from "@chakra-ui/react";
-import { useState } from "react";
 import { IoPersonSharp } from "react-icons/io5";
-import ModalAppointment from "./modalAppointment";
 
 interface CardAppointmentProps {
 	appointment: AppointmentProps;
+	selected: (appointment: AppointmentProps) => void;
 }
 
-export default function CardAppointment({ appointment }: CardAppointmentProps) {
+export default function CardAppointment({
+	appointment,
+	selected,
+}: CardAppointmentProps) {
 	const [isMobile] = useMediaQuery(["(max-width: 700px)"]);
-	const [modalVisible, setModalVisible] = useState(false);
-	function handleOpenModal() {
-		setModalVisible(true);
-	}
 	return (
 		<Flex
 			background={"barber.400"}
@@ -28,7 +26,7 @@ export default function CardAppointment({ appointment }: CardAppointmentProps) {
 			transition={"all"}
 			transitionDuration={"0.2s"}
 			cursor={"pointer"}
-			onClick={handleOpenModal}
+			onClick={() => selected(appointment)}
 		>
 			<Flex
 				flexDirection={isMobile ? "column" : "row"}
@@ -48,14 +46,6 @@ export default function CardAppointment({ appointment }: CardAppointmentProps) {
 					R$ {appointment.haircut.price.toFixed(2)}
 				</Text>
 			</Flex>
-			{modalVisible && (
-				<>
-					<ModalAppointment
-						appointment={appointment}
-						setModalVisible={setModalVisible}
-					/>
-				</>
-			)}
 		</Flex>
 	);
 }

@@ -2,22 +2,21 @@
 import { AppointmentProps } from "@/@types";
 import { setupAPIClient } from "@/services/api";
 import { Box, Button, CloseButton, Flex, Portal, Text } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
-
 import { FcMoneyTransfer } from "react-icons/fc";
 import { IoMdPerson } from "react-icons/io";
 import { RxScissors } from "react-icons/rx";
 
 interface ModalAppointmentProps {
 	appointment: AppointmentProps;
-	setModalVisible?: React.Dispatch<React.SetStateAction<boolean>>;
+	setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
+	setList: React.Dispatch<React.SetStateAction<AppointmentProps[]>>;
 }
 
 export default function ModalAppointment({
 	appointment,
 	setModalVisible,
+	setList,
 }: ModalAppointmentProps) {
-	const router = useRouter();
 	function handleCloseModal(e: React.MouseEvent) {
 		e.stopPropagation();
 		setModalVisible(false);
@@ -40,9 +39,14 @@ export default function ModalAppointment({
 		},
 	];
 	async function handleFinishSchedule() {
+		if (!appointment.id) return;
 		const response = await handleFinishAppointment(appointment.id);
 		if (response) {
-			return router.refresh();
+			setList((oldList) =>
+				oldList.filter((item) => item.id !== appointment.id)
+			);
+			setModalVisible(false);
+			return;
 		}
 	}
 	return (
