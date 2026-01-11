@@ -126,7 +126,7 @@ export default function NewHaircutClient({
 						<Flex justifyContent="center" alignItems="center">
 							<Text>
 								Você atingiu o seu limite de cortes,{" "}
-								<Link href="/haircut/new">
+								<Link href="/subscription">
 									<Text as="span" color="green.400" fontWeight="bold">
 										seja premium
 									</Text>
