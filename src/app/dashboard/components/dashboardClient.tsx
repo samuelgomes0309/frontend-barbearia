@@ -1,7 +1,7 @@
 "use client";
 import { AppointmentProps } from "@/@types";
 import Sidebar from "@/components/sidebar";
-import { Flex, Heading, Text } from "@chakra-ui/react";
+import { Center, Flex, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import CardAppointment from "./cardAppointment";
 
@@ -54,7 +54,11 @@ export default function DashboardClient({
 						<CardAppointment key={appointment.id} appointment={appointment} />
 					))}
 				{appointments.length === 0 && (
-					<Text color={"white"}>Nenhum agendamento encontrado.</Text>
+					<Center w={"100%"} maxW={700} mt={10}>
+						<Text color={"white"} fontSize={"lg"} fontWeight={"bold"}>
+							Nenhum agendamento em aberto.
+						</Text>
+					</Center>
 				)}
 			</Flex>
 		</Sidebar>

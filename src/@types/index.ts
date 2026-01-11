@@ -80,3 +80,8 @@ export interface AppointmentProps {
 	customer: string;
 	haircut: HaircutProps;
 }
+
+export interface NewAppointmentProps {
+	customer: string;
+	haircut_id: string;
+}
