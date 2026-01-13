@@ -4,23 +4,19 @@ export function middleware(request: NextRequest) {
 	const token = request.cookies.get("@barberpro.token")?.value;
 	const { pathname } = request.nextUrl;
 	const guestRoutes = ["/login", "/register"];
-	// 🔐 Rotas privadas (exceto /haircut/new)
-	const privateRoutes = [
-		"/dashboard",
-		"/haircut",
-		"/subscription",
-		"/schedule",
-	];
-	// 🚫 Se NÃO tiver token e tentar acessar rota privada
-	if (
-		!token &&
-		privateRoutes.some((route) => pathname.startsWith(route)) &&
-		pathname !== "/haircut/new"
-	) {
+	const privateRoutes = ["/dashboard", "/schedule", "/subscription"];
+	// 🔁 HOME
+	if (pathname === "/") {
+		return NextResponse.redirect(
+			new URL(token ? "/dashboard" : "/login", request.url)
+		);
+	}
+	// 🚫 Não logado em rota privada
+	if (!token && privateRoutes.some((route) => pathname.startsWith(route))) {
 		return NextResponse.redirect(new URL("/login", request.url));
 	}
-	// 🔄 Se TIVER token e tentar acessar rota de visitante
-	if (token && guestRoutes.some((route) => pathname.startsWith(route))) {
+	// 🔄 Logado em rota de visitante
+	if (token && guestRoutes.includes(pathname)) {
 		return NextResponse.redirect(new URL("/dashboard", request.url));
 	}
 	return NextResponse.next();
@@ -28,11 +24,11 @@ export function middleware(request: NextRequest) {
 
 export const config = {
 	matcher: [
+		"/",
 		"/dashboard/:path*",
-		"/haircut/:path*",
+		"/schedule/:path*",
+		"/subscription/:path*",
 		"/login",
 		"/register",
-		"/subscription",
-		"/schedule",
 	],
 };
