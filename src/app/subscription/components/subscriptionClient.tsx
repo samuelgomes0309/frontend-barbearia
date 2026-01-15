@@ -1,6 +1,7 @@
 "use client";
 import { SubscriptionProps } from "@/@types";
 import Sidebar from "@/components/sidebar";
+import { setupAPIClient } from "@/services/api";
 import {
 	Button,
 	Center,
@@ -34,6 +35,32 @@ export default function SubscriptionClient({
 			"Recebe todas atualizações",
 		],
 	};
+	async function handleSubscribe() {
+		if (isPremium) {
+			return;
+		}
+		try {
+			const apiClient = setupAPIClient();
+			const response = await apiClient.post("/subscribe");
+			const { url } = response.data;
+			window.location.href = url;
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	async function handleCustomerPortal() {
+		if (!isPremium) {
+			return;
+		}
+		try {
+			const apiClient = setupAPIClient();
+			const response = await apiClient.post("/create-portal");
+			const { url } = response.data;
+			window.location.href = url;
+		} catch (error) {
+			console.log(error);
+		}
+	}
 	return (
 		<Sidebar>
 			<Flex
@@ -150,6 +177,7 @@ export default function SubscriptionClient({
 									}}
 									color={"barber.400"}
 									size={"lg"}
+									onClick={handleCustomerPortal}
 								>
 									Alterar assinatura
 								</Button>
@@ -166,6 +194,7 @@ export default function SubscriptionClient({
 									}}
 									color={"barber.400"}
 									size={"lg"}
+									onClick={handleSubscribe}
 								>
 									Virar Premium
 								</Button>
