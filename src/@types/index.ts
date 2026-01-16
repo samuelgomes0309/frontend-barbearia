@@ -1,6 +1,6 @@
-import { BoxProps, FlexProps } from "@chakra-ui/react";
-import { IconType } from "react-icons";
-
+// =====================
+// USER / USUÁRIO
+// =====================
 export interface UserProps {
 	id: string;
 	name: string;
@@ -9,11 +9,14 @@ export interface UserProps {
 	subscriptions?: SubscriptionProps | null;
 }
 
-export interface SubscriptionProps {
-	id: string;
-	status: string;
+export interface UpdateUserProps {
+	name: string;
+	address: string;
 }
 
+// =====================
+// AUTH / LOGIN
+// =====================
 export interface SignInProps {
 	email: string;
 	password: string;
@@ -24,6 +27,20 @@ export interface SignUpProps {
 	email: string;
 	password: string;
 }
+
+// =====================
+// SUBSCRIPTION / ASSINATURA
+// =====================
+export interface SubscriptionProps {
+	id: string;
+	status: string;
+}
+
+// =====================
+// SIDEBAR / NAVEGAÇÃO
+// =====================
+import { BoxProps, FlexProps } from "@chakra-ui/react";
+import { IconType } from "react-icons";
 
 export interface SidebarItemProps {
 	name: string;
@@ -45,22 +62,15 @@ export interface MobielNavProps extends FlexProps {
 	onopen: () => void;
 }
 
-export interface UpdateUserProps {
-	name: string;
-	address: string;
-}
-
+// =====================
+// HAIRCUT / CORTES
+// =====================
 export interface HaircutProps {
 	id: string;
 	name: string;
 	price: number;
 	status: boolean;
 	user_id: string;
-}
-
-export interface HaircutCountProps {
-	Actives: { count: number };
-	Inactive: { count: number };
 }
 
 export interface NewHaircutProps {
@@ -75,6 +85,14 @@ export interface UpdateHaircutProps {
 	status: boolean;
 }
 
+export interface HaircutCountProps {
+	Actives: { count: number };
+	Inactive: { count: number };
+}
+
+// =====================
+// APPOINTMENT / AGENDA
+// =====================
 export interface AppointmentProps {
 	id: string;
 	customer: string;
